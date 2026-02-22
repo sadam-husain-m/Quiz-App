@@ -190,7 +190,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
   };
 
   return (
-    <div className="flex h-full w-full bg-slate-900/50 overflow-hidden select-none">
+    <div className="flex h-full w-full bg-slate-900/50 select-none">
       {/* LEFT SIDEBAR: Scores */}
       <aside className="w-56 border-r border-slate-800 bg-slate-900/80 p-3 flex flex-col space-y-3 shrink-0 shadow-2xl z-20 overflow-hidden">
         <div className="mb-2">
@@ -227,7 +227,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
       </aside>
 
       {/* MAIN CONTENT AREA */}
-      <main className="flex-1 relative flex flex-col p-4 md:p-6 overflow-hidden">
+      <main className="flex-1 relative flex flex-col p-4 md:p-6 overflow-y-auto">
         
         {/* TIMER (Top Right) */}
         <div className="absolute top-6 right-6 z-30">
@@ -246,20 +246,20 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
         </div>
 
         {/* Top bar Left: Round Info */}
-        <div className="flex items-start mb-6 justify-between w-full">
-           <div className="flex flex-col space-y-2">
-             <div className={`inline-flex items-center space-x-3 bg-slate-800/60 backdrop-blur-md px-4 py-2 rounded-xl border border-slate-700`}>
+        <div className="flex items-start mb-3 justify-between w-full shrink-0">
+           <div className="flex flex-col space-y-1">
+             <div className={`inline-flex items-center space-x-2 bg-slate-800/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700`}>
                <i className={`fas ${roundConfig?.icon} ${isRound7 ? 'text-rose-500' : 'text-blue-400'} text-sm`}></i>
                <div>
                   <p className={`text-[8px] font-black uppercase tracking-[0.2em] ${isRound7 ? 'text-rose-500' : 'text-blue-500'}`}>Round {currentRound}</p>
-                  <h1 className="text-lg font-black text-white uppercase tracking-tight">{roundTitle.includes(': ') ? roundTitle.split(': ')[1] : roundTitle}</h1>
+                  <h1 className="text-base font-black text-white uppercase tracking-tight">{roundTitle.includes(': ') ? roundTitle.split(': ')[1] : roundTitle}</h1>
                </div>
              </div>
            </div>
 
            {currentQuestion?.isSample && (
              <div className="animate-bounce">
-               <div className="bg-amber-500 text-slate-900 px-4 py-2 rounded-xl font-black text-xs uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(245,158,11,0.3)] border-2 border-amber-400">
+               <div className="bg-amber-500 text-slate-900 px-3 py-1.5 rounded-lg font-black text-[10px] uppercase tracking-[0.15em] shadow-[0_0_20px_rgba(245,158,11,0.3)] border-2 border-amber-400">
                  Sample Question
                </div>
              </div>
@@ -267,7 +267,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
         </div>
 
         {/* MIDDLE CONTENT */}
-        <div className="flex-1 flex flex-col justify-center items-center max-w-5xl mx-auto w-full min-h-0">
+        <div className="flex-1 flex flex-col justify-start items-center max-w-5xl mx-auto w-full min-h-0 pt-2">
           
           {status === 'question_result' && (
              <div className="mb-6 animate-in slide-in-from-top-2 duration-300">
@@ -275,10 +275,10 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
              </div>
           )}
 
-          <div className={`bg-slate-800/50 backdrop-blur-xl p-6 md:p-8 rounded-[3rem] border-2 ${currentQuestion?.isSample ? 'border-amber-500/40' : (isRound7 ? 'border-rose-500/50' : `${TEAM_BORDERS[activeTeamIndex]}/40`)} shadow-2xl relative overflow-hidden w-full flex flex-col transition-all duration-500`}>
+          <div className={`bg-slate-800/50 backdrop-blur-xl p-4 md:p-6 rounded-[2rem] border-2 ${currentQuestion?.isSample ? 'border-amber-500/40' : (isRound7 ? 'border-rose-500/50' : `${TEAM_BORDERS[activeTeamIndex]}/40`)} shadow-2xl relative w-full flex flex-col transition-all duration-500`}>
             
             {!showOptions && status === 'playing' ? (
-              <div className="flex-1 flex flex-col items-center justify-center space-y-6 py-6 animate-in fade-in zoom-in">
+              <div className="flex-1 flex flex-col items-center justify-center space-y-6 py-6 animate-in fade-in zoom-in min-h-[300px]">
                  {!(isRound6 || isRound7) && (
                    <h3 className="text-2xl md:text-3xl font-black leading-tight text-white tracking-tight text-center max-w-3xl">
                       {currentQuestion?.text}
@@ -294,31 +294,31 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
             ) : (
               <div className="flex-1">
                 {(isRound6 || isRound7) ? (
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between border-b border-slate-700/50 pb-4 mb-2">
-                      <h2 className={`text-xl font-black uppercase tracking-widest ${isRound7 ? 'text-rose-500' : 'text-white'}`}>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between border-b border-slate-700/50 pb-2 mb-1">
+                      <h2 className={`text-lg font-black uppercase tracking-widest ${isRound7 ? 'text-rose-500' : 'text-white'}`}>
                         {isRound7 ? 'TIE-BREAKER' : 'FINAL BLITZ'}
                       </h2>
                       {status === 'question_result' && !isRound7 && !currentQuestion?.isSample && (
-                        <div className="px-4 py-1 bg-blue-500/20 border border-blue-500/40 rounded-full text-blue-400 font-black text-xs uppercase tracking-widest">
+                        <div className="px-3 py-0.5 bg-blue-500/20 border border-blue-500/40 rounded-full text-blue-400 font-black text-[10px] uppercase tracking-widest">
                           +{directRoundScores.filter(s => s).length * DIRECT_QUESTION_MARKS + (directRoundScores.filter(s => s).length === 5 ? DIRECT_BONUS_MARKS : 0)} POINTS
                         </div>
                       )}
                     </div>
-                    <div className="grid grid-cols-1 gap-3">
+                    <div className="grid grid-cols-1 gap-1.5">
                       {blitzQuestions.map((q, idx) => (
-                        <div key={q.id} className="flex items-center gap-4 p-4 bg-slate-900/60 rounded-2xl border border-slate-700/50 transition-all hover:border-slate-500">
-                          <div className={`w-10 h-10 rounded-xl border flex items-center justify-center font-black text-lg shrink-0 ${isRound7 ? 'bg-rose-600/10 border-rose-500/30 text-rose-400' : 'bg-blue-600/10 border-blue-500/30 text-blue-400'}`}>
+                        <div key={q.id} className="flex items-center gap-3 p-2.5 bg-slate-900/60 rounded-xl border border-slate-700/50 transition-all hover:border-slate-500">
+                          <div className={`w-8 h-8 rounded-lg border flex items-center justify-center font-black text-base shrink-0 ${isRound7 ? 'bg-rose-600/10 border-rose-500/30 text-rose-400' : 'bg-blue-600/10 border-blue-500/30 text-blue-400'}`}>
                             {idx + 1}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-lg font-bold text-slate-100 truncate">{q.text}</p>
-                            {(status === 'question_result' && isAnswerRevealed) && <p className="text-sm text-emerald-400 mt-1 font-black uppercase">Ans: {q.explanation}</p>}
+                            <p className="text-base font-bold text-slate-100 truncate">{q.text}</p>
+                            {(status === 'question_result' && isAnswerRevealed) && <p className="text-xs text-emerald-400 font-black uppercase">Ans: {q.explanation}</p>}
                           </div>
-                          {status === 'playing' && (
-                            <button 
+                          {(status === 'playing' || (status === 'question_result' && !isAnswerRevealed)) && (
+                            <button
                               onClick={() => onToggleDirectScore(idx)}
-                              className={`px-4 py-2 rounded-xl font-black text-[10px] uppercase transition-all flex items-center min-w-[100px] justify-center ${directRoundScores[idx] ? 'bg-emerald-600 text-white border-2 border-emerald-400 shadow-sm' : 'bg-slate-800 text-slate-600 border border-slate-700'}`}
+                              className={`px-3 py-1.5 rounded-lg font-black text-[9px] uppercase transition-all flex items-center min-w-[80px] justify-center ${directRoundScores[idx] ? 'bg-emerald-600 text-white border-2 border-emerald-400 shadow-sm' : 'bg-slate-800 text-slate-600 border border-slate-700'}`}
                             >
                               {directRoundScores[idx] ? 'OK' : 'MARK'}
                             </button>
@@ -326,9 +326,9 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
                         </div>
                       ))}
                     </div>
-                    {status === 'playing' && (
-                      <div className="pt-4">
-                        <button onClick={onSubmitDirectBlock} className={`w-full py-4 text-white font-black text-xl rounded-2xl transition-all active:scale-95 border-b-4 uppercase tracking-[0.2em] ${isRound7 ? 'bg-rose-600 border-rose-800' : 'bg-blue-600 border-blue-800'}`}>SUBMIT BLOCK</button>
+                    {(status === 'playing' || (status === 'question_result' && !isAnswerRevealed)) && (
+                      <div className="pt-2">
+                        <button onClick={onSubmitDirectBlock} className={`w-full py-3 text-white font-black text-lg rounded-xl transition-all active:scale-95 border-b-4 uppercase tracking-[0.2em] ${isRound7 ? 'bg-rose-600 border-rose-800' : 'bg-blue-600 border-blue-800'}`}>SUBMIT BLOCK</button>
                       </div>
                     )}
                   </div>

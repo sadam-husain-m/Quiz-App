@@ -25,10 +25,10 @@ import {
 const SOUND_URLS = {
   // Background music - energetic electronic game music
   bgm: 'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3',
-  // Correct answer - celebratory bowling strike sound
-  correct: 'https://actions.google.com/sounds/v1/sports/bowling_strike.ogg',
-  // Wrong answer - distinctive clang/wobble error sound
-  wrong: 'https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg',
+  // Correct answer - quick celebratory bonus chime (0.45s)
+  correct: 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/bonus.wav',
+  // Wrong answer - impactful crash sound (1.6s)
+  wrong: 'https://actions.google.com/sounds/v1/impacts/crash.ogg',
   // Button click - quick pop sound
   select: 'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3',
   // Timer tick - short beep
