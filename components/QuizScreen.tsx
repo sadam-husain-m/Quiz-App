@@ -190,7 +190,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
   };
 
   return (
-    <div className="flex h-full w-full bg-slate-900 overflow-hidden select-none">
+    <div className="flex h-full w-full bg-slate-900/50 overflow-hidden select-none">
       {/* LEFT SIDEBAR: Scores */}
       <aside className="w-56 border-r border-slate-800 bg-slate-900/80 p-3 flex flex-col space-y-3 shrink-0 shadow-2xl z-20 overflow-hidden">
         <div className="mb-2">

@@ -23,12 +23,18 @@ import {
 } from './constants';
 
 const SOUND_URLS = {
-  bgm: 'https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3',
-  correct: 'https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3',
-  wrong: 'https://assets.mixkit.co/active_storage/sfx/951/951-preview.mp3',
-  select: 'https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3',
-  tick: 'https://assets.mixkit.co/active_storage/sfx/599/599-preview.mp3',
-  round: 'https://assets.mixkit.co/music/preview/mixkit-games-worldbeat-466.mp3'
+  // Background music - energetic electronic game music
+  bgm: 'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3',
+  // Correct answer - celebratory bowling strike sound
+  correct: 'https://actions.google.com/sounds/v1/sports/bowling_strike.ogg',
+  // Wrong answer - distinctive clang/wobble error sound
+  wrong: 'https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg',
+  // Button click - quick pop sound
+  select: 'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3',
+  // Timer tick - short beep
+  tick: 'https://actions.google.com/sounds/v1/alarms/beep_short.ogg',
+  // Round transition - epic game theme
+  round: 'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/theme_01.mp3'
 };
 
 const STATIC_QUESTIONS: Question[] = [
@@ -314,6 +320,15 @@ const App: React.FC = () => {
 
   const handleStartGame = async (teamNames: string[]) => {
     playSFX('select');
+    // Pre-initialize and unlock audio on user interaction
+    if (!roundPlayer.current) {
+      roundPlayer.current = new Audio(SOUND_URLS.round);
+      roundPlayer.current.loop = true;
+    }
+    // Play immediately on user click to bypass autoplay restrictions
+    roundPlayer.current.volume = 1.0;
+    roundPlayer.current.play().catch(() => {});
+
     setGameState(prev => ({ ...prev, status: 'loading' }));
     await new Promise(r => setTimeout(r, 1500));
     const initialTeams: Team[] = teamNames.map((name, i) => ({
@@ -631,8 +646,68 @@ const App: React.FC = () => {
   useEffect(() => { return () => { if (timerRef.current) clearInterval(timerRef.current); }; }, []);
 
   return (
-    <div className="fixed inset-0 bg-slate-900 text-slate-100 flex flex-col overflow-hidden">
-      <div className="flex-1 relative overflow-hidden flex flex-col items-center justify-center">
+    <div className="fixed inset-0 text-slate-100 flex flex-col overflow-hidden">
+      {/* DRAMATIC Animated Background */}
+      <style>{`
+        @keyframes orbit1 {
+          0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+          25% { transform: translate(20%, 25%) scale(1.3) rotate(90deg); }
+          50% { transform: translate(-15%, 10%) scale(0.8) rotate(180deg); }
+          75% { transform: translate(10%, -20%) scale(1.2) rotate(270deg); }
+          100% { transform: translate(0, 0) scale(1) rotate(360deg); }
+        }
+        @keyframes orbit2 {
+          0% { transform: translate(0, 0) scale(1); }
+          20% { transform: translate(-25%, 15%) scale(1.4); }
+          40% { transform: translate(20%, -25%) scale(0.7); }
+          60% { transform: translate(-10%, -10%) scale(1.25); }
+          80% { transform: translate(15%, 20%) scale(0.9); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes orbit3 {
+          0% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(30%, -20%) scale(1.5); }
+          66% { transform: translate(-20%, 30%) scale(0.6); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes mega-pulse {
+          0%, 100% { opacity: 0.5; filter: blur(60px); transform: scale(1); }
+          50% { opacity: 0.9; filter: blur(100px); transform: scale(1.15); }
+        }
+        @keyframes color-shift {
+          0%, 100% { filter: blur(80px) hue-rotate(0deg); }
+          50% { filter: blur(100px) hue-rotate(30deg); }
+        }
+        @keyframes rotate-ring {
+          from { transform: translate(-50%, -50%) rotate(0deg); }
+          to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        @keyframes wave {
+          0%, 100% { transform: translateY(0) scaleY(1); }
+          50% { transform: translateY(-10px) scaleY(1.1); }
+        }
+        @keyframes spark {
+          0%, 100% { opacity: 0.2; transform: scale(0.8); }
+          50% { opacity: 1; transform: scale(1.2); }
+        }
+      `}</style>
+      <div className="fixed inset-0 z-0 overflow-hidden bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950">
+        {/* Animated grid - more visible */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.15)_1px,transparent_1px)] bg-[size:50px_50px]" style={{animation: 'wave 4s ease-in-out infinite'}}></div>
+        {/* Rotating neon rings */}
+        <div className="absolute top-1/2 left-1/2 w-[900px] h-[900px] rounded-full border-[3px] border-cyan-500/30" style={{animation: 'rotate-ring 30s linear infinite'}}></div>
+        <div className="absolute top-1/2 left-1/2 w-[700px] h-[700px] rounded-full border-[3px] border-pink-500/30" style={{animation: 'rotate-ring 25s linear infinite reverse'}}></div>
+        <div className="absolute top-1/2 left-1/2 w-[500px] h-[500px] rounded-full border-[3px] border-yellow-500/30" style={{animation: 'rotate-ring 20s linear infinite'}}></div>
+        {/* MASSIVE pulsing orbs with dramatic movement */}
+        <div className="absolute w-[600px] h-[600px] rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600" style={{top: '-10%', left: '-5%', animation: 'orbit1 6s ease-in-out infinite, mega-pulse 2s ease-in-out infinite', filter: 'blur(80px)', opacity: 0.7}}></div>
+        <div className="absolute w-[550px] h-[550px] rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-orange-500" style={{bottom: '-15%', right: '-5%', animation: 'orbit2 8s ease-in-out infinite, mega-pulse 2.5s ease-in-out infinite 0.5s', filter: 'blur(80px)', opacity: 0.65}}></div>
+        <div className="absolute w-[500px] h-[500px] rounded-full bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500" style={{top: '40%', left: '50%', animation: 'orbit3 7s ease-in-out infinite, mega-pulse 3s ease-in-out infinite 1s', filter: 'blur(80px)', opacity: 0.6}}></div>
+        {/* Bright accent sparks */}
+        <div className="absolute w-[250px] h-[250px] rounded-full bg-yellow-300" style={{top: '20%', right: '20%', animation: 'spark 1.5s ease-in-out infinite, orbit1 10s ease-in-out infinite reverse', filter: 'blur(40px)', opacity: 0.5}}></div>
+        <div className="absolute w-[200px] h-[200px] rounded-full bg-fuchsia-400" style={{bottom: '30%', left: '10%', animation: 'spark 2s ease-in-out infinite 0.3s, orbit2 12s ease-in-out infinite', filter: 'blur(35px)', opacity: 0.5}}></div>
+        <div className="absolute w-[180px] h-[180px] rounded-full bg-lime-400" style={{top: '60%', right: '30%', animation: 'spark 1.8s ease-in-out infinite 0.6s, orbit3 9s ease-in-out infinite reverse', filter: 'blur(30px)', opacity: 0.45}}></div>
+      </div>
+      <div className="flex-1 relative overflow-hidden flex flex-col items-center justify-center z-10">
         {gameState.status === 'setup' && <div className="w-full h-full flex items-center justify-center overflow-hidden"><SetupScreen onStart={handleStartGame} /></div>}
         {gameState.status === 'loading' && (
           <div className="flex flex-col items-center justify-center h-full space-y-8">
