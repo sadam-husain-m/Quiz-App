@@ -192,7 +192,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
   return (
     <div className="flex h-full w-full bg-slate-900 overflow-hidden select-none">
       {/* LEFT SIDEBAR: Scores */}
-      <aside className="w-64 border-r border-slate-800 bg-slate-900/80 p-4 flex flex-col space-y-4 shrink-0 shadow-2xl z-20 overflow-y-auto no-scrollbar">
+      <aside className="w-56 border-r border-slate-800 bg-slate-900/80 p-3 flex flex-col space-y-3 shrink-0 shadow-2xl z-20 overflow-hidden">
         <div className="mb-2">
           <h2 className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Leaderboard</h2>
           <div className="space-y-3">
@@ -227,7 +227,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
       </aside>
 
       {/* MAIN CONTENT AREA */}
-      <main className="flex-1 relative flex flex-col p-6 md:p-10 overflow-hidden">
+      <main className="flex-1 relative flex flex-col p-4 md:p-6 overflow-hidden">
         
         {/* TIMER (Top Right) */}
         <div className="absolute top-6 right-6 z-30">
@@ -275,18 +275,18 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
              </div>
           )}
 
-          <div className={`bg-slate-800/50 backdrop-blur-xl p-8 md:p-10 rounded-[3rem] border-2 ${currentQuestion?.isSample ? 'border-amber-500/40' : (isRound7 ? 'border-rose-500/50' : `${TEAM_BORDERS[activeTeamIndex]}/40`)} shadow-2xl relative overflow-y-auto no-scrollbar w-full max-h-[70vh] flex flex-col transition-all duration-500`}>
+          <div className={`bg-slate-800/50 backdrop-blur-xl p-6 md:p-8 rounded-[3rem] border-2 ${currentQuestion?.isSample ? 'border-amber-500/40' : (isRound7 ? 'border-rose-500/50' : `${TEAM_BORDERS[activeTeamIndex]}/40`)} shadow-2xl relative overflow-hidden w-full flex flex-col transition-all duration-500`}>
             
             {!showOptions && status === 'playing' ? (
-              <div className="flex-1 flex flex-col items-center justify-center space-y-8 py-10 animate-in fade-in zoom-in">
+              <div className="flex-1 flex flex-col items-center justify-center space-y-6 py-6 animate-in fade-in zoom-in">
                  {!(isRound6 || isRound7) && (
-                   <h3 className="text-3xl md:text-5xl font-black leading-tight text-white tracking-tight text-center max-w-4xl">
+                   <h3 className="text-2xl md:text-3xl font-black leading-tight text-white tracking-tight text-center max-w-3xl">
                       {currentQuestion?.text}
                    </h3>
                  )}
                  <button
                    onClick={onRevealOptions}
-                   className="px-10 py-5 bg-blue-600 hover:bg-blue-500 text-white font-black text-xl md:text-2xl rounded-2xl shadow-xl transition-all transform hover:scale-105 active:scale-95 border-b-4 border-blue-800 uppercase tracking-widest"
+                   className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-black text-lg md:text-xl rounded-2xl shadow-xl transition-all transform hover:scale-105 active:scale-95 border-b-4 border-blue-800 uppercase tracking-widest"
                  >
                    {(isRound6 || isRound7) ? 'REVEAL QUESTIONS & START TIMER' : isRound4 ? 'START TIMER' : 'REVEAL OPTIONS & START TIMER'}
                  </button>

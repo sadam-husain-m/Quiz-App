@@ -28,7 +28,7 @@ const SOUND_URLS = {
   wrong: 'https://assets.mixkit.co/active_storage/sfx/951/951-preview.mp3',
   select: 'https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3',
   tick: 'https://assets.mixkit.co/active_storage/sfx/599/599-preview.mp3',
-  round: 'https://assets.mixkit.co/music/preview/mixkit-mysterious-suspense-667.mp3'
+  round: 'https://assets.mixkit.co/music/preview/mixkit-games-worldbeat-466.mp3'
 };
 
 const STATIC_QUESTIONS: Question[] = [
@@ -633,7 +633,7 @@ const App: React.FC = () => {
   return (
     <div className="fixed inset-0 bg-slate-900 text-slate-100 flex flex-col overflow-hidden">
       <div className="flex-1 relative overflow-hidden flex flex-col items-center justify-center">
-        {gameState.status === 'setup' && <div className="w-full max-h-full overflow-y-auto"><SetupScreen onStart={handleStartGame} /></div>}
+        {gameState.status === 'setup' && <div className="w-full h-full flex items-center justify-center overflow-hidden"><SetupScreen onStart={handleStartGame} /></div>}
         {gameState.status === 'loading' && (
           <div className="flex flex-col items-center justify-center h-full space-y-8">
             <div className="relative w-24 h-24">
@@ -645,8 +645,8 @@ const App: React.FC = () => {
         )}
         {gameState.status === 'round_transition' && <RoundTransitionScreen round={gameState.currentRound} onStart={handleStartRound} />}
         {(gameState.status === 'playing' || gameState.status === 'question_result') && (
-          <QuizScreen 
-            gameState={gameState} 
+          <QuizScreen
+            gameState={gameState}
             onSelectOption={handleSelectOption}
             onRevealAnswer={handleRevealAnswer}
             onNextQuestion={handleNextQuestion}
@@ -659,10 +659,10 @@ const App: React.FC = () => {
             onToggleDirectScore={handleToggleDirectScore}
             onSubmitDirectBlock={handleSubmitDirectBlock}
             onRevealOptions={handleRevealOptions}
-            onTimeUp={() => {}} 
+            onTimeUp={() => {}}
           />
         )}
-        {gameState.status === 'finished' && <div className="w-full h-full overflow-y-auto"><FinishedScreen teams={gameState.teams} onRestart={resetGame} /></div>}
+        {gameState.status === 'finished' && <div className="w-full h-full flex items-center justify-center overflow-hidden"><FinishedScreen teams={gameState.teams} onRestart={resetGame} /></div>}
       </div>
       {(gameState.status !== 'setup' && gameState.status !== 'loading') && (
         <div className="bg-slate-900/95 backdrop-blur-xl border-t border-slate-800 p-2 shrink-0 z-50">
