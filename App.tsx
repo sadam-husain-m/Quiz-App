@@ -178,13 +178,39 @@ const App: React.FC = () => {
   const bgmPlayer = useRef<HTMLAudioElement | null>(null);
   const tickPlayer = useRef<HTMLAudioElement | null>(null);
   const roundPlayer = useRef<HTMLAudioElement | null>(null);
+  const wrongPlayer = useRef<HTMLAudioElement | null>(null);
+  const correctPlayer = useRef<HTMLAudioElement | null>(null);
+
+  // Preload wrong and correct sounds on mount for instant playback
+  useEffect(() => {
+    wrongPlayer.current = new Audio(SOUND_URLS.wrong);
+    wrongPlayer.current.preload = 'auto';
+    wrongPlayer.current.load();
+
+    correctPlayer.current = new Audio(SOUND_URLS.correct);
+    correctPlayer.current.preload = 'auto';
+    correctPlayer.current.load();
+  }, []);
 
   const playSFX = useCallback((key: keyof typeof SOUND_URLS) => {
     if (isMuted) return;
+
+    // Use preloaded audio for wrong/correct for instant playback
+    if (key === 'wrong' && wrongPlayer.current) {
+      wrongPlayer.current.currentTime = 0;
+      wrongPlayer.current.volume = 1.0;
+      wrongPlayer.current.play().catch(() => {});
+      return;
+    }
+    if (key === 'correct' && correctPlayer.current) {
+      correctPlayer.current.currentTime = 0;
+      correctPlayer.current.volume = 0.8;
+      correctPlayer.current.play().catch(() => {});
+      return;
+    }
+
     const audio = new Audio(SOUND_URLS[key]);
-    if (key === 'wrong') audio.volume = 1.0; 
-    else if (key === 'correct') audio.volume = 0.8;
-    else audio.volume = 0.7;
+    audio.volume = 0.7;
     audio.play().catch(() => {});
   }, [isMuted]);
 
